@@ -1,34 +1,43 @@
 const client = require("discord-rich-presence")("861702238472241162");
-const { app, BrowserWindow } = require("electron");
 require("dotenv").config();
 
 const iTunes = require("./bridge/iTunesBridge.js");
 const iTunesApp = new iTunes();
 
-let RPCInterval = 0;
 let state = "Not Opened";
 let currentSong = {};
 let startDate = new Date();
 let lastSong = "";
 
-function createWindow() {
-  const win = new BrowserWindow({
-    width: 0,
-    height: 0,
-    webPreferences: {
-      nodeIntegration: true,
+const { app, Tray, Menu } = require("electron");
+const { menubar } = require("menubar");
+
+app.on("ready", () => {
+  const tray = new Tray(app.getAppPath() + "/icons/trayTemplate@2x.png");
+  const contextMenu = Menu.buildFromTemplate([
+    {
+      label: "Launch at startup",
+      type: "checkbox",
+      checked: app.getLoginItemSettings().openAtLogin,
+      click: (event) => {
+        app.setLoginItemSettings({
+          openAtLogin: event.checked,
+        });
+      },
     },
+    {
+      label: "Quit AppleMusicRPC",
+      role: "quit",
+      accelerator: "Command+Q",
+    },
+  ]);
+  tray.setContextMenu(contextMenu);
+  const mb = menubar({ tray });
+  mb.on("ready", () => {
+    console.log("AppleMusicRPC is ready.");
+    tray.removeAllListeners();
   });
-  win.loadFile("index.html");
-}
-
-function setTime(sec) {
-  var t = new Date();
-  t.setSeconds(t.getSeconds() - sec);
-  return t.getTime();
-}
-
-app.whenReady().then(createWindow);
+});
 
 async function update() {
   currentSong = await iTunesApp.getCurrentSong();
@@ -87,4 +96,4 @@ async function update() {
   });
 }
 
-RPCInterval = setInterval(update, 1000);
+setInterval(update, 1000);

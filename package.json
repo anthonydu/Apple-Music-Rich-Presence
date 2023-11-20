@@ -1,13 +1,13 @@
 {
   "name": "applemusicrpc",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
-    "pack:osxINTEL": "electron-packager . AppleMusicRPC --out=../amRPC --platform=darwin --arch=x64 --overwrite",
-    "pack:osxARM": "electron-packager . AppleMusicRPC --out=../amRPC --platform=darwin --arch=arm64 --overwrite",
+    "pack:osxINTEL": "electron-packager . AppleMusicRPC --out=../amRPC --platform=darwin --arch=x64 --icon=icons/icon.icns --overwrite",
+    "pack:osxARM": "electron-packager . AppleMusicRPC --out=../amRPC --platform=darwin --arch=arm64 --icon=icons/icon.icns --overwrite",
     "pack:win32": "electron-packager . AppleMusicRPC --out=../amRPC --platform=win32 --arch=ia32 --icon=icons/icon.ico --overwrite",
     "pack:win64": "electron-packager . AppleMusicRPC --out=../amRPC --platform=win32 --arch=x64 app-version=1.1 --icon=icons/icon.ico --overwrite",
     "build": "npm run pack:win64 && npm run pack:win32 && npm run pack:osxINTEL && npm run pack:osxARM"
@@ -19,6 +19,7 @@
     "discord-rich-presence": "0.0.8",
     "dotenv": "^10.0.0",
     "fs": "0.0.1-security",
+    "menubar": "^9.3.0",
     "path": "^0.12.7",
     "stack": "^0.1.0"
   },
