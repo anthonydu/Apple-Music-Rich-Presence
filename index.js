@@ -1,4 +1,4 @@
-const client = require("discord-rich-presence")("861702238472241162");
+let client = null;
 require("dotenv").config();
 
 const iTunes = require("./bridge/iTunesBridge.js");
@@ -41,7 +41,19 @@ app.on("ready", () => {
 
 async function update() {
   currentSong = await iTunesApp.getCurrentSong();
+
   if (currentSong) state = await iTunesApp.getState();
+
+  if (state == "Not Opened" || state == "Stopped" || state == "Paused") {
+    if (client) {
+      client.disconnect();
+      client = null;
+    }
+    return;
+  } else {
+    if (!client)
+      client = require("discord-rich-presence")("861702238472241162");
+  }
 
   if (currentSong.name && currentSong.name.includes(" - ")) {
     const split = currentSong.name.split(/\s*\-\s*/);
@@ -96,4 +108,6 @@ async function update() {
   });
 }
 
-setInterval(update, 1000);
+// update interval extended because a short interval
+// causes relaunch of the Music app shortly after closing
+setInterval(update, 5000);

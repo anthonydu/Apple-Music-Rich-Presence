@@ -1,9 +1,12 @@
 const APP = Application.currentApplication();
-const iTunesApp = Application('Music');
+let iTunesApp = null;
+if (Application("Music").running()) {
+  iTunesApp = Application("Music");
+}
 
 APP.includeStandardAdditions = true;
 
-ObjC.import('Foundation');
+ObjC.import("Foundation");
 
 function getPlayerState() {
   if (!iTunesApp) return "Not Opened";
@@ -33,11 +36,11 @@ function getCurrentTrack() {
       genre: currentTrack.genre(),
       year: currentTrack.year(),
       elapsed: iTunesApp.playerPosition(),
-      state: getPlayerState()
+      state: getPlayerState(),
     };
   } catch (e) {
     data = {
-      state: getPlayerState()
+      state: getPlayerState(),
     };
   }
 
@@ -45,7 +48,7 @@ function getCurrentTrack() {
 }
 
 function run(argv) {
-  switch(argv[0]) {
+  switch (argv[0]) {
     case "currentTrack":
     case "currenttrack":
     case "current":
