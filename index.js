@@ -4,13 +4,10 @@ require("dotenv").config();
 const iTunes = require("./bridge/iTunesBridge.js");
 const iTunesApp = new iTunes();
 
-const albumArt = require("album-art");
-
 let state = "Not Opened";
 let currentSong = {};
 let startDate = new Date();
 let lastSong = "";
-let artwork = "applemusic";
 
 const { app, Tray, Menu } = require("electron");
 const { menubar } = require("menubar");
@@ -78,13 +75,6 @@ async function update() {
     startDate.setSeconds(
       new Date().getSeconds() - parseInt(currentSong.elapsed) - 1
     );
-    try {
-      artwork = await albumArt(currentSong.artist, {
-        album: currentSong.album,
-      });
-    } catch (e) {
-      artwork = "applemusic";
-    }
   }
 
   startDate = new Date();
@@ -96,7 +86,7 @@ async function update() {
       currentSong.name || "Unknown"
     }`,
     startTimestamp: state == "Playing" ? startDate.getTime() : Date.now(),
-    largeImageKey: artwork,
+    largeImageKey: "applemusic",
     smallImageKey: state == "Playing" ? "play" : "pause",
     smallImageText: state,
     largeImageText: state == "Playing" ? `${fullTitle}` : "Idling",
