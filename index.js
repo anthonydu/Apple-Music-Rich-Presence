@@ -55,7 +55,7 @@ async function update() {
     return;
   } else {
     if (!client)
-      client = require("discord-rich-presence")("861702238472241162");
+      client = require("discord-rich-presence")("1166920489445376030");
   }
 
   if (currentSong.name && currentSong.name.includes(" - ")) {
@@ -97,7 +97,10 @@ async function update() {
     }`,
     startTimestamp: state == "Playing" ? startDate.getTime() : Date.now(),
     largeImageKey: artwork,
-    smallImageKey: state == "Playing" ? "play" : "pause",
+    smallImageKey:
+      state == "Playing"
+        ? "https://raw.githubusercontent.com/anthonydu/Apple-Music-Rich-Presence/master/icons/playing.gif"
+        : "pause",
     smallImageText: state,
     largeImageText: state == "Playing" ? `${fullTitle}` : "Idling",
     buttons: [
