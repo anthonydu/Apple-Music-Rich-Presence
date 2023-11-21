@@ -98,9 +98,7 @@ async function update() {
     startTimestamp: state == "Playing" ? startDate.getTime() : Date.now(),
     largeImageKey: artwork,
     smallImageKey:
-      state == "Playing"
-        ? "https://raw.githubusercontent.com/anthonydu/Apple-Music-Rich-Presence/master/icons/playing.gif"
-        : "pause",
+      state == "Playing" ? "https://i.imgur.com/onH1k7Y.gif" : "pause",
     smallImageText: state,
     largeImageText: state == "Playing" ? `${fullTitle}` : "Idling",
     buttons: [
